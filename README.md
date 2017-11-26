@@ -3,7 +3,9 @@
 ## Getting Started
 
 Create .env file and add environment variable below
-```NODE_ENV=development```
+```
+NODE_ENV=development
+```
 
 then run 
 ```

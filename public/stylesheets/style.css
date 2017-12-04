@@ -1,0 +1,121 @@
+table, tr, th, td {
+  table-layout: fixed;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  width: 275px;
+  background-color: lightgrey;
+}
+
+#reps {
+  width: 275px;
+}
+
+#extraColumn {
+  width: 100px;
+}
+
+#restP {
+  display: inline;
+  margin-left: 40px;
+}
+
+#restPDone {
+  display: inline;
+  margin-left: 40px;
+}
+
+#setsRest {
+  display: inline;
+  margin-left: 40px;
+
+}
+
+#setsRestDone {
+  display: inline;
+  margin-left: 40px;
+
+}
+
+#newCircuit {
+  display: block;
+  margin-top: 20px;
+}
+
+h3 {
+  float: left;
+}
+
+.exNameInput {
+  width: 400px;
+}
+
+.repsInput {
+  width: 50px;
+  text-align: left;
+  float: left;
+}
+
+.setsInput {
+  width: 30px;
+  text-align: left;
+}
+
+.restInput {
+  width: 50px;
+  text-align: left;
+}
+
+#finishButton {
+  display: block;
+  margin-top: 60px;
+}
+
+.exNameInput {
+  width: 150px;
+  text-align: left;
+}
+
+.deleteButton {
+  visibility: hidden;
+  float: right;
+}
+
+.visibleDeleteButton {
+  visibility: visible;
+  float: right;
+}
+
+/*Slider styling **************/
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 24px;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: lightGrey;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 4px;
+  bottom: 4px;
+  background-color: grey;
+  transition: .4s;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}

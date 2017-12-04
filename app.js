@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 require('dotenv').config();
 const app = express();
-// const db = require('./config/database');
+const logger = require('morgan');
 const config = require('./config')[process.env.NODE_ENV];
 const status = require('./routes/status');
 const workouts = require('./routes/workouts');
@@ -18,8 +19,15 @@ app.use('/workouts', workouts);
 
 // setup request / response middleware
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/public'));
+
+// load javascripts
+// app.use(express.static(path.join(__dirname + '/public')));
+console.log('path', __dirname + '/public')
+
 
 // set engine
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // catch 404 and forward to error handler

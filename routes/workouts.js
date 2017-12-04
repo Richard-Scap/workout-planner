@@ -5,13 +5,15 @@ const router = express.Router();
 
 router.get('/', (req, res, next) => {
   var sql = "SELECT * FROM workouts;";
-  var result;
+  var queryResult;
+  var that = this;
 
   db.query(sql, function(error, results, fields) {
     if (error) throw error;
-    res.send(JSON.stringify(results))
+    that.queryResult = results;
   });
-
+  console.log('queryResult:', that.queryResult);
+  res.render('index', {title: "Work it outttt"});
 })
 
 //TODO finish create route

@@ -8,10 +8,10 @@ router.get('/', (req, res, next) => {
   var queryResult;
   var that = this;
 
-  db.query(sql, function(error, results, fields) {
-    if (error) throw error;
-    that.queryResult = results;
-  });
+  // db.query(sql, function(error, results, fields) {
+  //   if (error) throw error;
+  //   that.queryResult = results;
+  // });
   console.log('queryResult:', that.queryResult);
   res.render('index', {title: "Work it outttt"});
 })

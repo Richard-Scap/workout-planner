@@ -42,8 +42,6 @@ var tools = {
         workout.delete(currentTable, clickedRowId);
         j--;
       }
-
-
     });
 
     document.body.addEventListener('click', function(e) {

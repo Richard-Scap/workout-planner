@@ -1,121 +1,58 @@
-table, tr, th, td {
-  table-layout: fixed;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  width: 275px;
-  background-color: lightgrey;
+body {
+  max-width:50%;
+  min-width:800px;
+  max-height:500px;
+  min-height:21%;
 }
 
-#reps {
-  width: 275px;
+div {width: 425px;}
+h {margin-bottom: 0;}
+span, h {width: 200px;}
+
+.exercise {font-size: 20px; margin-bottom: 20px; display: inline-block;} 
+
+.flippedEx, .flippedReps {width: 200px; height: 21px; margin-left: 0; margin-right: 0; 
+                          display: inline-block;}
+.reps {font-size: 20px; width: 100px; margin-bottom: 20px; display: inline-block;}
+
+.repsInput {width: 40px;}
+.setsInput {width: 33px;}
+.restInput {width: 45px;}
+
+#setsSpan, #flippedSets, #restSpan, #flippedRest {margin-left: 30px;}
+
+#dropdown {height: 23px;}
+
+.deleteButton {visibility: hidden;}
+
+
+/*Review page styles*/
+
+table, th, td, tr {
+  border-collapse: collapse;
+}
+ 
+tbody {
+  margin-bottom: 50px;
+  padding-bottom: 50px;
 }
 
-#extraColumn {
-  width: 100px;
-}
+.reviewHeaders {font-size: 18px;}
 
-#restP {
-  display: inline;
-  margin-left: 40px;
-}
+#setsTh {text-align: left; padding-right: 40px;} 
+#exerciseTh {width: 175px; text-align: left; padding-right: 50px;}
+#repsTh {text-align: left; padding-right: 60px;}
+#restTh {text-align: left; padding-left: 60px;}
 
-#restPDone {
-  display: inline;
-  margin-left: 40px;
-}
+#saveButton {margin-top: 100px; height: 40px; width: 90px; display: inline-block;}
+#nameWorkoutInput {display: inline-block;}
 
-#setsRest {
-  display: inline;
-  margin-left: 40px;
-
-}
-
-#setsRestDone {
-  display: inline;
-  margin-left: 40px;
-
-}
-
-#newCircuit {
-  display: block;
-  margin-top: 20px;
-}
-
-h3 {
-  float: left;
-}
-
-.exNameInput {
-  width: 400px;
-}
-
-.repsInput {
-  width: 50px;
-  text-align: left;
-  float: left;
-}
-
-.setsInput {
-  width: 30px;
-  text-align: left;
-}
-
-.restInput {
-  width: 50px;
-  text-align: left;
-}
-
-#finishButton {
-  display: block;
-  margin-top: 60px;
-}
-
-.exNameInput {
-  width: 150px;
-  text-align: left;
-}
-
-.deleteButton {
-  visibility: hidden;
-  float: right;
-}
-
-.visibleDeleteButton {
-  visibility: visible;
-  float: right;
-}
-
-/*Slider styling **************/
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 45px;
-  height: 24px;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: lightGrey;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 15px;
-  width: 15px;
-  left: 4px;
-  bottom: 4px;
-  background-color: grey;
-  transition: .4s;
-}
-
-input:checked + .slider:before {
-  transform: translateX(20px);
-}
+#restTd {text-align: right;}
+/* .reviewExName {} */
+.reviewSets {border-right: solid black 2px; text-align: center;}
+#setsTracker {font-size: 15px}
+#exDivRun, #firstExDivRun {font-size: 25px; text-align: center;}
+#firstExDivRun {margin-top: 100};
+#exSpanRun {margin-right: 200px;}
+#runPreviewRest {font-size: 20px;}
+#nextButton {display: right; height: 200px; width: 300px; font-size: 25px;}

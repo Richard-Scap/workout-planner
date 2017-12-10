@@ -7,7 +7,7 @@ Create .env file and add environment variable below
 NODE_ENV=development
 ```
 
-then run 
+then run
 ```
 npm install
 ```
@@ -15,5 +15,5 @@ once dependencies have installed start the app with
 ```
 npm start
 ```
-
+test
 :rocket: :metal:

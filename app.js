@@ -48,4 +48,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(process.env.PORT || 3000, () => console.log("Express server listening on port %o in %s mode", process.env.PORT || 3000, process.env.NODE_ENV))

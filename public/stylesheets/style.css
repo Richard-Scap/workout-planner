@@ -1,0 +1,58 @@
+body {
+  max-width:50%;
+  min-width:800px;
+  max-height:500px;
+  min-height:21%;
+}
+
+div {width: 425px;}
+h {margin-bottom: 0;}
+span, h {width: 200px;}
+
+.exercise {font-size: 20px; margin-bottom: 20px; display: inline-block;} 
+
+.flippedEx, .flippedReps {width: 200px; height: 21px; margin-left: 0; margin-right: 0; 
+                          display: inline-block;}
+.reps {font-size: 20px; width: 100px; margin-bottom: 20px; display: inline-block;}
+
+.repsInput {width: 40px;}
+.setsInput {width: 33px;}
+.restInput {width: 45px;}
+
+#setsSpan, #flippedSets, #restSpan, #flippedRest {margin-left: 30px;}
+
+#dropdown {height: 23px;}
+
+.deleteButton {visibility: hidden;}
+
+
+/*Review page styles*/
+
+table, th, td, tr {
+  border-collapse: collapse;
+}
+ 
+tbody {
+  margin-bottom: 50px;
+  padding-bottom: 50px;
+}
+
+.reviewHeaders {font-size: 18px;}
+
+#setsTh {text-align: left; padding-right: 40px;} 
+#exerciseTh {width: 175px; text-align: left; padding-right: 50px;}
+#repsTh {text-align: left; padding-right: 60px;}
+#restTh {text-align: left; padding-left: 60px;}
+
+#saveButton {margin-top: 100px; height: 40px; width: 90px; display: inline-block;}
+#nameWorkoutInput {display: inline-block;}
+
+#restTd {text-align: right;}
+/* .reviewExName {} */
+.reviewSets {border-right: solid black 2px; text-align: center;}
+#setsTracker {font-size: 15px}
+#exDivRun, #firstExDivRun {font-size: 25px; text-align: center;}
+#firstExDivRun {margin-top: 100};
+#exSpanRun {margin-right: 200px;}
+#runPreviewRest {font-size: 20px;}
+#nextButton {display: right; height: 200px; width: 300px; font-size: 25px;}

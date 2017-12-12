@@ -3,23 +3,29 @@ const db = require('../config/database');
 const router = express.Router();
 
 
-router.get('/', (req, res, next) => {
-  var sql = "SELECT * FROM workouts;";
-  var queryResult;
-  var that = this;
+router.get('/new', (req, res, next) => {
+  console.log('response status:', res.statusCode);
+  res.render('index');
+})
 
-  // db.query(sql, function(error, results, fields) {
-  //   if (error) throw error;
-  //   that.queryResult = results;
-  // });
-  console.log('queryResult:', that.queryResult);
-  res.render('index', {title: "Work it outttt"});
+router.get('/:id', (req, res, next) => {
+  var result;
+  var sql = "SELECT * FROM workouts;"
+  db.query(sql, [id], (err, res) => {
+    if (err) {
+      return next(err);
+    }
+    result = res.rows[0];
+    console.log('result', res);
+  })
 })
 
 //TODO finish create route
 router.post('/new', (req, res, nex) => {
-  var sql = `INSERT INTO workouts (name, day, exercise_id, workout_uid)
-             VALUES ( ${req.somevar}`
+  console.log('request', req);
+  res.send('Check yo self', res);
+  // var sql = `INSERT INTO workouts (name, day, exercise_id, workout_uid)
+  //            VALUES ( ${req.somevar}`
 
 })
 

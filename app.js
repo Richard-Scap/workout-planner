@@ -17,14 +17,13 @@ app.get('/', (req, res) => {
 app.use('/status', status);
 app.use('/workouts', workouts);
 
+
+//* middleware *//
 // setup request / response middleware
 app.use(bodyParser.json());
+
+//load javascripts and stylesheets
 app.use(express.static(__dirname + '/public'));
-
-// load javascripts
-// app.use(express.static(path.join(__dirname + '/public')));
-console.log('path', __dirname + '/public')
-
 
 // set engine
 app.set('views', path.join(__dirname, 'views'));

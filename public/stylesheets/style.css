@@ -1,9 +1,12 @@
-body {
+body, #runBody {
   max-width:50%;
   min-width:800px;
-  max-height:500px;
   min-height:21%;
 }
+
+#runBody {height: 90%;}
+
+
 
 div {width: 425px;}
 h {margin-bottom: 0;}
@@ -51,8 +54,10 @@ tbody {
 /* .reviewExName {} */
 .reviewSets {border-right: solid black 2px; text-align: center;}
 #setsTracker {font-size: 15px}
-#exDivRun, #firstExDivRun {font-size: 25px; text-align: center;}
-#firstExDivRun {margin-top: 100};
-#exSpanRun {margin-right: 200px;}
-#runPreviewRest {font-size: 20px;}
+#exDivRun, #firstExDivRun, #restCountdownDiv, #restTimer {font-size: 25px; text-align: center;}
+#firstExDivRun, #restCountdownDiv, #restTimer {margin-top: 100};
+#exSpanRun {display: inline-block; margin-right: 200px;}
+#repsSpanRun {display: inline-block;}
+#runPreview {font-size: 20px;}
 #nextButton {display: right; height: 200px; width: 300px; font-size: 25px;}
+#restTimer {font-size: 60px;}

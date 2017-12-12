@@ -284,6 +284,7 @@ var create = {
     finishButton.innerHTML = "Finish";
     finishButton.id = "finishButton";
     finishButton.addEventListener('click', function() {
+      document.body.innerHTML = '';
       var reviewPage = window.open("", "_self", "", false);
       reviewPage.document.write("<h1>Review<h1>");
       review.setUp();
@@ -539,7 +540,10 @@ var review = {
     var runButton = document.createElement('button');
     runButton.id = 'runButton';
     runButton.innerHTML = 'Run';
-    runButton.addEventListener('click', function () {run.setUp()});
+    runButton.addEventListener('click', function () {
+      c = 0;
+      run.circuitDisplay()
+    });
     return runButton;
   },
 
@@ -687,15 +691,15 @@ var run = {
   
   previewRest: function () {
     var previewRest = document.createElement('div');
-    previewRest.id = 'runPreviewRest';
+    previewRest.id = 'runPreview';
     previewRest.innerHTML = 'Up Next:  ' + workout.circuit[c].rest + 'seconds off';
     previewRest.appendChild (this.nextButton());
     return previewRest;
   },
 
-  setUp: function () {
+  circuitDisplay: function () {
+    document.body.id = 'runBody';
     document.body.innerHTML= '';
-    debugger;
     c = 0;
     e = 0;
     for (var i = 0; i <workout.circuit[c].ex.length; i++) {
@@ -721,26 +725,84 @@ var run = {
   restTimer: function () {
     document.body.innerHTML = '';
     document.body.appendChild(run.createSetsTracker());    
-    var preview = document.getElementById('runPreviewRest');
-    preview.id = 'runPreviewWork';
+    var preview = document.getElementById('runPreview');
+    // document.body.appendChild(this.createCountdownDiv());
     if (s === workout.circuit[c].sets) {
       c++;
+      s = 1;
+      e = 0;
+    } else {
+    s++;
     }
-    preview.innerHTML = 'Up Next: ' + workout.circuit[c].ex[0].exName + '...';
-    //preview.addEventListener('click', function () {});
-
-    //start timer
-    //when timer reaches 0 change deleteHTML and put show second set/second circuit
+    if (c === workout.circuit.length) {
+    document.body.innerHTML = '';
+    document.body.id = '';
+    preview.innerHTML = '';
+    var finishWorkoutMessage = document.createElement('div');
+    finishWorkoutMessage.id = 'finishWorkoutMessage';
+    finishWorkoutMessage.innerHTML = 'You look swole... good for you';
+    document.body.appendChild(finishWorkoutMessage);
+    var returnToViewPageButton = create.finishButton();
+    returnToViewPageButton.innerHTML = 'Back to review page';
+    document.body.appendChild(returnToViewPageButton);
+    } else {
+    
+    var timer = document.createElement('div');
+    timer.id = 'restTimer';
+    var x = workout.circuit[c].rest;
+    timer.innerHTML = x;
+    var interval = setInterval(function () {
+      x--;
+      timer.innerHTML = x;
+      if (x === 0) {
+        clearInterval(interval);
+        run.nextCircuit();
+      }
+    }, 1000);
+    document.body.appendChild(timer)
+    
+      preview.innerHTML = 'Up Next: ' + s + '/' + workout.circuit[c].sets + '  ' + workout.circuit[c].ex[0].exName + '...';
+    
     //temporarily press timer done button
     var timerDone = document.createElement('button');
-    timerDone.innerHTML = 'Timer Done';
-    timerDone.addEventListener('click', function() {run.nextCircuit();
+    timerDone.innerHTML= 'Who needs rest';
+    timerDone.addEventListener('click', function() {
+      run.nextCircuit();
+      console.log('worked');
     });
+    preview.appendChild(timerDone);
+    }
+  },
+
+
+  //Div content to be replaced by actual timer
+  createCountdownDiv: function () {
+    var restCountdownDiv = document.createElement('div');
+    restCountdownDiv.id = "restCountdownDiv";
+    restCountdownDiv.innerHTML = workout.circuit[c].rest;
+    return restCountdownDiv;
   },
 
   nextCircuit: function () {
     document.body.innerHTML = '';
-    s++;
     document.body.appendChild(run.createSetsTracker()); 
+    e = 0;
+    for (var i = 0; i <workout.circuit[c].ex.length; i++) {
+      if (i === 0) {
+        var exDiv = document.body.appendChild(run.createExDiv());
+        exDiv.id = 'firstExDivRun';
+        exDiv.appendChild(run.createExSpan());                 
+        exDiv.appendChild(run.createRepsSpan());                  
+        e++;        
+      } else {
+        var exDiv = document.body.appendChild(run.createExDiv());              
+        exDiv.appendChild(run.createExSpan());
+        exDiv.appendChild(run.createRepsSpan());        
+        e++;
+      } 
+    }
+    var preview = document.getElementById('runPreview');
+    preview.innerHTML = 'Up Next:  ' + workout.circuit[c].rest + 'seconds off';
+    preview.appendChild(this.nextButton());
   },
 };

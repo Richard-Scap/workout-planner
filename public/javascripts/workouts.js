@@ -797,7 +797,15 @@ var review = {
     });
     return runButton;
   },
-
+  createEditButton: function () {
+    var editButton = document.createElement('button');
+    editButton.id = 'editButton';
+    runButton.innerHTML = 'Edit';
+    editButton.addEventListener('click', function () {
+      review.returnToEditPage();
+    });
+    return editButton;
+  },
 
   setUp: function () {
     document.head.innerHTML = "<link rel=\"stylesheet\" href=\"./stylesheets/style.css\">"
@@ -809,10 +817,6 @@ var review = {
    
     //create a tbody for every circuit stored 
     for (var c = 0; c < workout.circuit.length; c++) {
-      // var table = document.querySelector('table');
-      // var tbody = this.createTbody();
-      // tbody.id = c;
-      // table.appendChild(tbody);
       var newTable = document.createElement('table');
       newTable.className = "reviewTables";
       var newTBody = this.createTbody();
@@ -860,13 +864,19 @@ var review = {
     reviewBottom.appendChild(this.createNameWorkoutInput());
     reviewBottom.appendChild(this.createSaveButton());
     reviewBottom.appendChild(this.createRunButton());
+    reviewBottom.appendChild(this.createEditButton());
     document.body.appendChild(reviewBottom);
 
   },
   
   save: function () {
     console.log('workout saved');
-  }, 
+  },
+
+  returnToEditPage: function () {
+    console.log('returned to edit page');
+
+  },
 };
 
 

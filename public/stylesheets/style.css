@@ -26,7 +26,7 @@ span, h {width: 200px;}
 
 #dropdown {height: 23px;}
 
-.deleteButton {visibility: hidden;}
+.deleteButton {visibility: hidden; position: absolute;}
 
 
 /*Review page styles*/
@@ -35,10 +35,7 @@ table, th, td, tr {
   border-collapse: collapse;
 }
  
-tbody {
-  margin-bottom: 50px;
-  padding-bottom: 50px;
-}
+.reviewTables {margin-bottom: 30px;}
 
 .reviewHeaders {font-size: 18px;}
 
@@ -50,9 +47,10 @@ tbody {
 #saveButton {margin-top: 100px; height: 40px; width: 90px; display: inline-block;}
 #nameWorkoutInput {display: inline-block;}
 
-#restTd {text-align: right;}
-/* .reviewExName {} */
-.reviewSets {border-right: solid black 2px; text-align: center;}
+#restTd {text-align: left; width: 75px;}
+.reviewExName {left: 20px; width: 200px; height: 20px;}
+.reviewReps {width: 150px;}
+.reviewSets {border-right: solid black 2px; text-align: center; width: 50px;}
 #setsTracker {font-size: 15px}
 #exDivRun, #firstExDivRun, #restCountdownDiv, #restTimer {font-size: 25px; text-align: center;}
 #firstExDivRun, #restCountdownDiv, #restTimer {margin-top: 100};

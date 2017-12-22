@@ -16,6 +16,27 @@ pool.on('error', (err, client) => {
   process.exit(-1)
 })
 
+const createTables = `CREATE TABLE IF NOT EXISTS workouts(
+                        ID INT PRIMARY KEY NOT NULL,
+                        NAME TEXT)
+
+                      CREATE TABLE IF NOT EXISTS exercises(
+                        ID INT PRIMARY KEY NOT NULL,
+                        NAME CHAR(30),
+                        TYPE CHAR(30),
+                        WORKOUT_ID INT REFERENCES workouts (ID),
+                        CIRCUIT_ID INT REFERENCES circuits(ID))
+
+                      CREATE TABLE IF NOT EXISTS circuits(
+                        ID INT PRIMARY KEY NOT NULL,
+                        NAME CHAR(30),
+                        REPETITIONS INT,
+                        REST INT,
+                        WORKOUT_ID INT REFERENCES workouts (ID));`
+
+pool.query(createTables, null, (err, res) => {
+  console.log(res.rows[0]);
+})
 
 module.exports = {
   query: (text, params, callback) => {

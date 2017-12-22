@@ -8,6 +8,11 @@ const config = require('./config')[process.env.NODE_ENV];
 const status = require('./routes/status');
 const workouts = require('./routes/workouts');
 
+//* middleware, ensure this loads first*//
+// setup request / response middleware
+app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+
 //* Home Endpoint *//
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -16,11 +21,6 @@ app.get('/', (req, res) => {
 //* Controllers *//
 app.use('/status', status);
 app.use('/workouts', workouts);
-
-
-//* middleware *//
-// setup request / response middleware
-app.use(bodyParser.json());
 
 //load javascripts and stylesheets
 app.use(express.static(__dirname + '/public'));

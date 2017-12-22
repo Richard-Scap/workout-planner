@@ -2,24 +2,54 @@ const express = require('express');
 const db = require('../config/database');
 const router = express.Router();
 
+router.get('/new', (req, res, next) => {
+  console.log('response status:', res.statusCode);
+  res.render('index');
+})
 
-router.get('/', (req, res, next) => {
-  var sql = "SELECT * FROM workouts;";
-  var queryResult;
-  var that = this;
-
-  // db.query(sql, function(error, results, fields) {
-  //   if (error) throw error;
-  //   that.queryResult = results;
-  // });
-  console.log('queryResult:', that.queryResult);
-  res.render('index', {title: "Work it outttt"});
+router.get('/:id', (req, res, next) => {
+  var result;
+  var sql = "SELECT * FROM workouts;"
+  var id = req.params.id;
+  db.query(sql, [id], (err, res) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(res.rows[0]);
+    console.log('result', res);
+  })
 })
 
 //TODO finish create route
-router.post('/new', (req, res, nex) => {
-  var sql = `INSERT INTO workouts (name, day, exercise_id, workout_uid)
-             VALUES ( ${req.somevar}`
+router.post('/create', (req, res, next) => {
+  console.log('POST REQUEST', req.body);
+  var response = {}
+  var params = req.body;
+
+  res.send(req.body);
+  var sql = `INSERT INTO workouts (name)
+               VALUES (${params.workoutName})`
+
+  db.query(sql, null, (err, res) => {
+    console.log(res.rows[0]);
+    response.workout = res.rows[0]
+  })
+
+  var sql = `INSERT INTO circuits (name, repetitions, rest, workout_id)
+  VALUES("circuit0", ${params.sets}, ${params.rest}, workout_id)`
+
+  db.query(sql, null, (err, res) => {
+    console.log(res.rows[0]);
+    response.circuits = res.rows[0]
+  })
+
+  var sql = `INSERT INTO exercises (name, repetitions, rest, workout_id)
+  VALUES("circuit0", ${params.sets}, ${params.rest}, workout_id)`
+
+  db.query(sql, null, (err, res) => {
+    console.log(res.rows[0]);
+    response.exercises = res.rows[0]
+  })
 
 })
 

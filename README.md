@@ -15,5 +15,5 @@ once dependencies have installed start the app with
 ```
 npm start
 ```
-test
+
 :rocket: :metal:

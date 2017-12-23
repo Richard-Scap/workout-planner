@@ -35,7 +35,9 @@ const createTables = `CREATE TABLE IF NOT EXISTS workouts(
                         WORKOUT_ID INT REFERENCES workouts (ID));`
 
 pool.query(createTables, null, (err, res) => {
-  console.log(res.rows[0]);
+  if (err) { console.log(err) }
+  console.log(res);
+
 })
 
 module.exports = {

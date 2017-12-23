@@ -1,7 +1,6 @@
 //********************global**************************
 
 var i = 0; //designates current circuit
-var j = 0; // designates current ex in circuit[i]
 var t = 10; // designates current div (ex)
 var p = 100; // designates current p (circuit)
 var r = 0; // designates current span row (exName or rep)
@@ -42,9 +41,8 @@ var workout = {
   circuit: [],
 
   addCircuit: function(exName) {
-    // i++;
     this.circuit.push({
-      ex: [], //generate new circuit
+      ex: [], 
       sets: '',
       rest: '',
     });
@@ -53,7 +51,7 @@ var workout = {
 
   addEx: function(exName) {
     var circuit = workout.circuit;
-    circuit[i].ex.push({ //push ex into circuit
+    circuit[i].ex.push({ 
       exName: exName,
       reps: '',
       repsType: false,
@@ -61,11 +59,11 @@ var workout = {
   },
 
   addReps: function(reps) {
-    this.circuit[i].ex[j].reps = reps;
+    this.circuit[i].ex[r].reps = reps;
   },
 
   addRepsType: function(repsType) {
-    this.circuit[i].ex[j].repsType = repsType;
+    this.circuit[i].ex[r].repsType = repsType;
   },
 
   addSets: function(sets) {
@@ -83,6 +81,22 @@ var workout = {
 
 var create = {
   
+  editFrame: function () {
+    document.body.innerHTML = "";
+    var create = document.createElement("h1");
+    create.innerHTML = "Create";
+    document.body.appendChild(create);
+    var exerciseHeader = document.createElement('h');
+    exerciseHeader.className = "exercise";
+    exerciseHeader.innerHTML = "Exercise";
+    document.body.appendChild(exerciseHeader);
+    var repsHeader = document.createElement('h');
+    repsHeader.className = 'reps';
+    repsHeader.innerHTML = 'Reps';
+    document.body.appendChild(repsHeader); 
+    p = 100;
+  },
+
   paragraph: function () {
     var paragraph = document.createElement('p');
     return paragraph;
@@ -111,8 +125,7 @@ var create = {
     return createInput;
   }, 
   
-  newRepsInput: function() {
-    
+  newRepsInput: function() {   
     var repsInput = document.createElement('input');
     repsInput.setAttribute('type', 'number');
     repsInput.className = 'repsInput';
@@ -126,7 +139,6 @@ var create = {
   }, 
   
   newExInput: function() {
-    j++;  
     var createInput = document.createElement('input');   
     createInput.setAttribute("type", "text");
     createInput.className = 'exNameInput';
@@ -279,33 +291,14 @@ var tools = {
         var clickedDiv = e.target.parentNode;
         var clickedDivId = clickedDiv.id;
         var clickedP = clickedDiv.parentNode;
-        if(workout.circuit[clickedP.id /100 - 1].ex.length === 1) { 
-          clickedDiv.parentNode.innerHTML = '';
-          r = 0;
-          var newSpan = create.span();
-          var newDiv = create.div();
-          newDiv.id = t;
-        
-          } else { 
+        // if(workout.circuit[clickedP.id /100 - 1].ex.length === 1) { 
+ 
         clickedDiv.parentNode.removeChild(clickedDiv);
         workout.delete(clickedP.id, clickedSpan.id);
-        j--;
-     
+        
+        create.editFrame();
 
-        //Delete all divs, rebuild frame
-        document.body.innerHTML = "";
-        var create = document.createElement("h1");
-        create.innerHTML = "Create";
-        document.body.appendChild(create);
-        var exerciseHeader = document.createElement('h');
-        exerciseHeader.className = "exercise";
-        exerciseHeader.innerHTML = "Exercise";
-        document.body.appendChild(exerciseHeader);
-        var repsHeader = document.createElement('h');
-        repsHeader.className = 'reps';
-        repsHeader.innerHTML = 'Reps';
-        document.body.appendChild(repsHeader); 
-        p = 100;
+        //rebuild circuits/ex
         for (var i = 0; i < workout.circuit.length; i++) {
           r = 0;
           t = 10;
@@ -326,7 +319,7 @@ var tools = {
             newDiv.appendChild(newExSpan);
             newDiv.appendChild(newRepsSpan);
             newP.appendChild(newDiv);
-          
+
             //needs fix
             if (workout.circuit[i].length === 1) {
             var deleteCircuitButton = document.createElement('button');
@@ -413,7 +406,7 @@ var tools = {
           paragraph.appendChild(div);
           document.body.appendChild(paragraph);
         }
-        }
+        
       }
     });
 
@@ -493,7 +486,11 @@ var tools = {
                 //pop add/check buttons
                 var div = create.div();
                 div.id = 'addCheckDiv';
-                currentP.appendChild(div);
+
+                var lastP = document.getElementById(workout.circuit.length * 100)
+                lastP.appendChild(div);
+                // currentP.appendChild(div);
+
                 var newSpan = create.span();
                 newSpan.id = 'addCheckSpan';
                 div.appendChild(newSpan);
@@ -510,6 +507,8 @@ var tools = {
                   newSpan.appendChild(create.addCircuitButton())
                   div.appendChild(newSpan);
                   paragraph.appendChild(div);
+                  document.body.insertAdjacentElement('afterend', create.finishButton());
+                  
                 }
               }
             });
@@ -553,7 +552,7 @@ var flow = {
     destroy.input();
     
     //Flip input into text
-    span.innerHTML = workout.circuit[i].ex[j].exName;
+    span.innerHTML = workout.circuit[i].ex[r].exName;
     span.className = 'flippedEx';
     
     //Pop reps input
@@ -572,7 +571,7 @@ var flow = {
     destroy.input();
 
     //Flip input into text
-    span.innerHTML = workout.circuit[i].ex[j].exName;
+    span.innerHTML = workout.circuit[i].ex[r].exName;
     span.className = 'flippedEx';
     
     //Pop reps input
@@ -596,11 +595,11 @@ var flow = {
     var span = dropdown.parentNode;
     if (document.getElementById('dropdown').value === 'Seconds') { 
       destroy.dropdown();
-      span.innerHTML = workout.circuit[i].ex[j].reps + ' s';
+      span.innerHTML = workout.circuit[i].ex[r].reps + ' s';
       span.className = 'flippedReps';
     } else {
       destroy.dropdown();
-      span.innerHTML = 'x' + workout.circuit[i].ex[j].reps;
+      span.innerHTML = 'x' + workout.circuit[i].ex[r].reps;
       span.className = 'flippedEx';
     }
     //pop delete buttons
@@ -722,11 +721,11 @@ var flow = {
       document.getElementById('finishButton').remove();
       
       //reset j = 0. now will be first ex in array again... create Input
-      j = 0;
+      // j = 0;
       t = t + 10;
       i++;
       var span = create.span();
-      span.id = j;
+      span.id = r;
       span.appendChild(create.newCircuitInput());
       var div = create.div();
       div.id = t;
@@ -800,7 +799,7 @@ var review = {
   createEditButton: function () {
     var editButton = document.createElement('button');
     editButton.id = 'editButton';
-    runButton.innerHTML = 'Edit';
+    editButton.innerHTML = 'Edit';
     editButton.addEventListener('click', function () {
       review.returnToEditPage();
     });
@@ -815,7 +814,7 @@ var review = {
     var newTr = review.createTr(); 
     newTr.id = r;
    
-    //create a tbody for every circuit stored 
+    //create a table for every circuit stored 
     for (var c = 0; c < workout.circuit.length; c++) {
       var newTable = document.createElement('table');
       newTable.className = "reviewTables";
@@ -835,7 +834,7 @@ var review = {
       for(var e = 0; e < workout.circuit[c].ex.length; e++) {
           var tr = this.createTr();
           tr.id = e; 
-          newTBody.appendChild(tr);                 // ch to newTBody
+          newTBody.appendChild(tr);                 
 
           var exName = this.createTd();
           exName.className = 'reviewExName';
@@ -851,6 +850,26 @@ var review = {
             reps.innerHTML = 'x' + workout.circuit[c].ex[e].reps;
             tr.appendChild(reps);            
           }
+
+          var weight = this.createTd();
+          weight.className = 'reviewWeight';
+          tr.appendChild(weight);
+          var weightButton = document.createElement('button');
+          weightButton.innerHTML= "W";
+          weightButton.id = e;          
+          weightButton.addEventListener('click', function (e) {
+            var clickedTd = e.target.parentNode;
+            console.log(clickedTd);
+            clickedTd.innerHTML = '';
+            weightInput = review.weightInput();
+            weightInput.id = e.target.id;
+            clickedTd.appendChild(weightInput);
+            var lbs = document.createElement('span');
+            lbs.innerHTML = ' lbs';
+            clickedTd.appendChild(lbs);            
+          });
+          weight.appendChild(weightButton);
+
           if (e === 0) {
            var restTd = document.createElement('td');
             restTd.setAttribute("rowspan", rSpan);
@@ -861,14 +880,40 @@ var review = {
       }
     } 
     var reviewBottom = create.span();
-    reviewBottom.appendChild(this.createNameWorkoutInput());
-    reviewBottom.appendChild(this.createSaveButton());
-    reviewBottom.appendChild(this.createRunButton());
-    reviewBottom.appendChild(this.createEditButton());
+      reviewBottom.appendChild(this.createNameWorkoutInput());
+      reviewBottom.appendChild(this.createSaveButton());
+      reviewBottom.appendChild(this.createRunButton());
+      reviewBottom.appendChild(this.createEditButton());
     document.body.appendChild(reviewBottom);
 
   },
   
+  weightInput: function () {
+    var weightInput = document.createElement('input');
+      weightInput.setAttribute("type", "number");
+      weightInput.className = 'weightInput';
+      // var enteredWeight = weightInput.valueAsNumber;      
+      weightInput.addEventListener('keyup', function (e) {
+        if (e.key === "Enter") {
+          var currentInput = e.target;
+          var currentTbody = e.target.parentNode.parentNode.parentNode;
+          workout.circuit[currentTbody.id].ex[currentInput.id].weight = weightInput.valueAsNumber;
+          var weight = weightInput.valueAsNumber;
+          
+          currentTd = e.target.parentNode;
+          currentTd.innerHTML = weight + ' lbs';
+        }
+        
+      })
+    return weightInput;    
+  },
+  
+  flipWeightInput: function () {
+    
+    var weight = workout.circuit[currentTbody.id].ex[currentInput.id].weight
+
+  },
+
   save: function () {
     console.log('workout saved');
   },
@@ -896,29 +941,61 @@ var run = {
     return setsSpan;
   },
 
-  createExDiv: function () {
-    var exDiv = document.createElement('div');
-    exDiv.id = 'exDivRun';
-    return exDiv;
+  createTable: function () {
+    var table = document.createElement('table');
+    var tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+    table.id = 'tableRun';
+    return table;
   },
 
-  createExSpan: function () {
-    var exSpan = document.createElement('span');
-    exSpan.id = 'exSpanRun';
-    exSpan.innerHTML = workout.circuit[c].ex[e].exName;
-    return exSpan;
-    
+  createExTr: function () {
+    var tr = document.createElement('tr');
+    tr.id = e;
+    return tr;
+  },  
+
+  createExNameTd: function () {
+    var exNameTd = document.createElement('td');
+    exNameTd.id = e;
+    exNameTd.className = 'exNameTdRun';
+    exNameTd.innerHTML = workout.circuit[c].ex[e].exName;
+    return exNameTd;
   },
 
-  createRepsSpan: function () {
-    var repsSpan = document.createElement('span');
-    repsSpan.id = 'repsSpanRun';
+  createRepsTd: function () {
+    var repsTd = document.createElement('td');
+    repsTd.id = e;
+    repsTd.className = 'repsTdRun';
     if (workout.circuit[c].ex[e].repsType === 'Seconds') {
-    repsSpan.innerHTML = workout.circuit[c].ex[e].reps + 'sec';
+      repsTd.innerHTML = workout.circuit[c].ex[e].reps + 'sec';
+      } else {
+      repsTd.innerHTML = 'x' + workout.circuit[c].ex[e].reps;  
+      }
+    return repsTd;
+  },
+
+  createWFeedback: function () {
+    var upFeedback = document.createElement('button');
+      upFeedback.innerHTML = '^';
+    var downFeedback = document.createElement('button');
+      downFeedback.innerHTML = '~'; 
+    var feedbackSpan = document.createElement('span');
+    feedbackSpan.appendChild(upFeedback);
+    feedbackSpan.appendChild(downFeedback);
+    return feedbackSpan;
+  },
+
+  createWeightTd: function () {
+    var weightTd = document.createElement('td');
+    weightTd.id = e;
+    weightTd.className = 'weightTdRun';
+    if (typeof workout.circuit[c].ex[e].weight === 'number') {
+    weightTd.innerHTML = workout.circuit[c].ex[e].weight + ' lbs';
     } else {
-    repsSpan.innerHTML = 'x' + workout.circuit[c].ex[e].reps;  
+    weightTd.innerHTML = '';
     }
-    return repsSpan;
+    return weightTd;
   },
 
   nextButton: function () {
@@ -946,17 +1023,24 @@ var run = {
       if (i === 0) {
         s++;
         document.body.appendChild(run.createSetsTracker());       //setsTracker
-        var exDiv = document.body.appendChild(run.createExDiv()); //ex div
-        exDiv.id = 'firstExDivRun';
-        exDiv.appendChild(run.createExSpan());                    //exName span
-        exDiv.appendChild(run.createRepsSpan());                  //reps span        
+        
+        var table = this.createTable()
+        var tbody = table.childNodes[0];
+        document.body.appendChild(table);
+        var exTr = tbody.appendChild(this.createExTr());
+        exTr.appendChild(run.createExNameTd());
+        exTr.appendChild(run.createRepsTd());
+        exTr.appendChild(run.createWeightTd());
+
+        
         e++;
         document.body.insertAdjacentElement('afterend', run.previewRest());
         
       } else {
-        var exDiv = document.body.appendChild(run.createExDiv());              
-        exDiv.appendChild(run.createExSpan());
-        exDiv.appendChild(run.createRepsSpan());        
+        var exTr = table.appendChild(this.createExTr());
+        exTr.appendChild(run.createExNameTd());
+        exTr.appendChild(run.createRepsTd());
+        exTr.appendChild(run.createWeightTd());                
         e++;
       }
     }    
@@ -966,7 +1050,6 @@ var run = {
     document.body.innerHTML = '';
     document.body.appendChild(run.createSetsTracker());    
     var preview = document.getElementById('runPreview');
-    // document.body.appendChild(this.createCountdownDiv());
     if (s === workout.circuit[c].sets) {
       c++;
       s = 1;

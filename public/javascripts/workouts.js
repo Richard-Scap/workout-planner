@@ -178,33 +178,54 @@ var create = {
   },
 
   addCircuitButton: function() {
-    var button = document.createElement('button');
-    button.innerHTML = "+";
-    button.id = "newCircuitButton";
-    button.addEventListener('click', function() {
+    var createButton = document.createElement('img');
+    createButton.setAttribute("src", "../images/plusSign.jpg")
+    createButton.id = "newCircuitButton";
+    createButton.addEventListener('mouseover', function (e) {                        
+      e.target.style.cursor = "pointer";
+      e.target.setAttribute("src", "../images/plusSignOn.jpg");
+    });
+    createButton.addEventListener('mouseout', function (e) {
+      e.target.setAttribute("src", "../images/plusSign.jpg");   
+    });
+    createButton.addEventListener('click', function() {
       flow.flipAddCircuitButton();
       addCircuitOrFinishButtons = !addCircuitOrFinishButtons;      
     });
-    return button;
+    return createButton;
   },
 
   addButton: function() {
-    var createButton = document.createElement('button');
-    createButton.innerHTML = "+";
+    var createButton = document.createElement('img');
+    createButton.setAttribute("src", "../images/plusSign.jpg")
     createButton.className = "addCheckButtonCombo";
     createButton.id = "addButton";
-    createButton.addEventListener('click', function() {
+    createButton.addEventListener('mouseover', function (e) {                        
+        e.target.style.cursor = "pointer";
+        e.target.setAttribute("src", "../images/plusSignOn.jpg");
+    });
+    createButton.addEventListener('mouseout', function (e) {
+        e.target.setAttribute("src", "../images/plusSign.jpg");   
+    });
+    createButton.addEventListener('click', function () {
       flow.flipAddButton();
     });
     return createButton;
   },
   
   checkButton: function() {
-    var createButton = document.createElement('button');
-    createButton.innerHTML = "v";
+    var createButton = document.createElement('img');
+    createButton.setAttribute("src", "../images/checkMark.jpg")
     createButton.className = "addCheckButtonCombo";
-    createButton.addEventListener('click', function() {
-    flow.flipCheckButton();
+    createButton.addEventListener('mouseover', function (e) {                        
+        e.target.style.cursor = "pointer";
+        e.target.setAttribute("src", "../images/checkMarkOn.jpg");
+    });
+    createButton.addEventListener('mouseout', function (e) {
+        e.target.setAttribute("src", "../images/checkMark.jpg");   
+    });
+    createButton.addEventListener('click', function () {
+      flow.flipCheckButton();
     });
     return createButton;
   },
@@ -224,16 +245,36 @@ var create = {
   deleteButton: function() {
     var createButton = document.createElement('button');
     createButton.innerHTML = "X";
+
+    createButton = document.createElement('img');
+    createButton.setAttribute("src", "../images/x.jpg");
     createButton.id = r;
     createButton.className = 'deleteButton';
+    createButton.addEventListener('mouseover', function (e) {                        
+      e.target.style.cursor = "pointer";
+      e.target.setAttribute("src", "../images/xOn.jpg");
+    });
+    createButton.addEventListener('mouseout', function (e) {
+        e.target.setAttribute("src", "../images/x.jpg");   
+    });
     return createButton;
   },
   
   finishButton: function() {
-    var finishButton = document.createElement('button');
-    finishButton.innerHTML = "Finish";
+    var finishButton = document.createElement('img');
+    finishButton.setAttribute("src", "../images/finish.jpg");
+
+    var finishButton = document.createElement('span');
+    finishButton.innerHTML = 'Finish';
     finishButton.id = "finishButton";
-    finishButton.addEventListener('click', function() {
+    finishButton.addEventListener('mouseover', function (e) {                        
+      e.target.style.cursor = "pointer";
+      e.target.style.color = "rgb(56, 147, 174)";
+    });
+    finishButton.addEventListener('mouseout', function (e) {
+      e.target.style.color = "black";
+    });
+    finishButton.addEventListener('click', function () {
       document.body.innerHTML = '';
       var reviewPage = window.open("", "_self", "", false);
       reviewPage.document.write("<h1>Review<h1>");
@@ -269,7 +310,7 @@ var tools = {
     document.body.addEventListener('mouseover', function(e) {
       if (e.target.className === 'flippedEx' || e.target.className === 'deleteButton') {
         e.target.parentNode.style.fontWeight = 'bold';
-        e.target.parentNode.style.backgroundColor = 'lightgrey';
+        e.target.parentNode.style.backgroundColor = 'rgb(56, 147, 174)';
         e.target.style.cursor = 'pointer';
         e.target.parentNode.childNodes[2].className = 'visibleDeleteButton';
       }
@@ -779,35 +820,103 @@ var review = {
   },
   
   createSaveButton: function () {
-    var saveButton = document.createElement('button');
+    var saveButton = document.createElement('span');
     saveButton.id = 'saveButton';
-    saveButton.innerHTML = 'Save Workout!';
+    saveButton.innerHTML = 'Save';
     saveButton.addEventListener('click', function () {review.save()});
+    saveButton.addEventListener('mouseover', function () {
+      saveButton.style.color = "rgb(56, 147, 174)";
+      saveButton.style.cursor = "pointer";
+    });
+    saveButton.addEventListener('mouseout', function () {
+      saveButton.style.color = "black";
+    });
     return saveButton; 
   },
   
   createRunButton: function () {
-    var runButton = document.createElement('button');
+    var runButton = document.createElement('span');
     runButton.id = 'runButton';
     runButton.innerHTML = 'Run';
-    runButton.addEventListener('click', function () {
-      c = 0;
-      run.circuitDisplay()
+    runButton.addEventListener('click', function () {c = 0; run.circuitDisplay()});
+    runButton.addEventListener('mouseover', function () {
+      runButton.style.color = "rgb(56, 147, 174)";
+      runButton.style.cursor = "pointer";
+    });
+    runButton.addEventListener('mouseout', function () {
+      runButton.style.color = "black";
     });
     return runButton;
   },
   createEditButton: function () {
-    var editButton = document.createElement('button');
+    var editButton = document.createElement('span');
     editButton.id = 'editButton';
     editButton.innerHTML = 'Edit';
-    editButton.addEventListener('click', function () {
-      review.returnToEditPage();
+    editButton.addEventListener('click', function () {review.returnToEditPage()});
+    editButton.addEventListener('mouseover', function () {
+      editButton.style.color = "rgb(56, 147, 174)";
+      editButton.style.cursor = "pointer";
+    });
+    editButton.addEventListener('mouseout', function () {
+      editButton.style.color = "black";
     });
     return editButton;
   },
 
+   
+  weightButton: function (e) {
+    var weightPic = document.createElement('img');
+    weightPic.setAttribute("src", "../images/pickWeight.jpg");
+    weightPic.className = "weightPic";
+    weightPic.id = e;
+    weightPic.addEventListener('mouseover', function (e) {                        
+      if(e.target.className === "weightPic" ) {
+        e.target.style.cursor = "pointer";
+        e.target.setAttribute("src", "../images/pickWeightOn.jpg");
+        weightPic.setAttribute("alt", "Add Weight! (optional)");            
+      }
+    });
+    weightPic.addEventListener('mouseout', function (e) {
+      if(e.target.className === "weightPic" ) {
+        e.target.setAttribute("src", "../images/pickWeight.jpg");   
+      }         
+    });
+    weightPic.addEventListener('click', function (e) {
+      var clickedTd = e.target.parentNode;
+      clickedTd.innerHTML = '';
+      weightInput = review.weightInput();
+      weightInput.id = e.target.id;
+      clickedTd.appendChild(weightInput);
+      var lbs = document.createElement('span');
+      lbs.innerHTML = ' lbs';
+      clickedTd.appendChild(lbs);            
+    });
+    return weightPic;
+  },
+
+  weightInput: function () {
+    var weightInput = document.createElement('input');
+      weightInput.setAttribute("type", "number");
+      weightInput.className = 'weightInput';
+      // var enteredWeight = weightInput.valueAsNumber;      
+      weightInput.addEventListener('keyup', function (e) {
+        if (e.key === "Enter") {
+          var currentInput = e.target;
+          var currentTbody = e.target.parentNode.parentNode.parentNode;
+          workout.circuit[currentTbody.id].ex[currentInput.id].weight = weightInput.valueAsNumber;
+          var weight = weightInput.valueAsNumber;
+          
+          currentTd = e.target.parentNode;
+          currentTd.innerHTML = weight + ' lbs';
+        }
+        
+      });
+    return weightInput;    
+  },
+
+
   setUp: function () {
-    document.head.innerHTML = "<link rel=\"stylesheet\" href=\"./stylesheets/style.css\">"
+    document.head.innerHTML = "<link rel=\"stylesheet\" href=\"../stylesheets/style.css\">"
   },
   
   populate: function () {
@@ -838,7 +947,7 @@ var review = {
 
           var exName = this.createTd();
           exName.className = 'reviewExName';
-          exName.innerHTML = '    ' + workout.circuit[c].ex[e].exName;
+          exName.innerHTML = '     ' + workout.circuit[c].ex[e].exName;
           tr.appendChild(exName); 
   
           var reps =  this.createTd();
@@ -854,21 +963,8 @@ var review = {
           var weight = this.createTd();
           weight.className = 'reviewWeight';
           tr.appendChild(weight);
-          var weightButton = document.createElement('button');
-          weightButton.innerHTML= "W";
-          weightButton.id = e;          
-          weightButton.addEventListener('click', function (e) {
-            var clickedTd = e.target.parentNode;
-            console.log(clickedTd);
-            clickedTd.innerHTML = '';
-            weightInput = review.weightInput();
-            weightInput.id = e.target.id;
-            clickedTd.appendChild(weightInput);
-            var lbs = document.createElement('span');
-            lbs.innerHTML = ' lbs';
-            clickedTd.appendChild(lbs);            
-          });
-          weight.appendChild(weightButton);
+          
+          weight.appendChild(review.weightButton(e));
 
           if (e === 0) {
            var restTd = document.createElement('td');
@@ -887,33 +983,7 @@ var review = {
     document.body.appendChild(reviewBottom);
 
   },
-  
-  weightInput: function () {
-    var weightInput = document.createElement('input');
-      weightInput.setAttribute("type", "number");
-      weightInput.className = 'weightInput';
-      // var enteredWeight = weightInput.valueAsNumber;      
-      weightInput.addEventListener('keyup', function (e) {
-        if (e.key === "Enter") {
-          var currentInput = e.target;
-          var currentTbody = e.target.parentNode.parentNode.parentNode;
-          workout.circuit[currentTbody.id].ex[currentInput.id].weight = weightInput.valueAsNumber;
-          var weight = weightInput.valueAsNumber;
-          
-          currentTd = e.target.parentNode;
-          currentTd.innerHTML = weight + ' lbs';
-        }
-        
-      })
-    return weightInput;    
-  },
-  
-  flipWeightInput: function () {
-    
-    var weight = workout.circuit[currentTbody.id].ex[currentInput.id].weight
-
-  },
-
+ 
   save: function () {
     console.log('workout saved');
   },

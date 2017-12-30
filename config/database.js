@@ -17,18 +17,18 @@ pool.on('error', (err, client) => {
 })
 
 const createTables = `CREATE TABLE IF NOT EXISTS workouts(
-                        ID INT PRIMARY KEY NOT NULL,
+                        ID SERIAL PRIMARY KEY,
                         NAME TEXT);
 
                       CREATE TABLE IF NOT EXISTS circuits(
-                        ID INT PRIMARY KEY NOT NULL,
+                        ID SERIAL PRIMARY KEY,
                         NAME CHAR(30),
                         REPETITIONS INT,
                         REST INT,
                         WORKOUT_ID INT REFERENCES workouts (ID));
 
                       CREATE TABLE IF NOT EXISTS exercises(
-                        ID INT PRIMARY KEY NOT NULL,
+                        ID SERIAL PRIMARY KEY,
                         NAME CHAR(30),
                         TYPE CHAR(30),
                         WORKOUT_ID INT REFERENCES workouts (ID),
@@ -37,6 +37,7 @@ const createTables = `CREATE TABLE IF NOT EXISTS workouts(
 pool.query(createTables, null, (err, res) => {
   if (err) {console.log('DB ERROR', err)}
   console.log('DB ready');
+  console.log('db res', res);
 })
 
 module.exports = {

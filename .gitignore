@@ -1,6 +1,6 @@
 .env
 .vscode
 node_modules
+jsconfig.json
 .DS_STORE
 */.DS_STORE
-

@@ -1,4 +1,6 @@
 body, #runBody {
+  font-family: "arial black";
+  margin-left: 100px;
   max-width:50%;
   min-width:800px;
   min-height:21%;
@@ -10,25 +12,28 @@ body, #runBody {
 
 div {width: 425px;}
 h {margin-bottom: 0;}
-span, h {width: 200px;}
+span, h {font-family: "arial black"; width: 200px;}
 
 .exercise {font-size: 20px; margin-bottom: 20px; display: inline-block;} 
 
-.flippedEx, .flippedReps {width: 200px; height: 21px; margin-left: 0; margin-right: 0; 
-                          display: inline-block;}
+#flippedEx, #flippedReps {width: 200px; height: 21px; margin-left: 0; margin-right: 0; 
+                          display: inline-block;} 
 .reps {font-size: 20px; width: 100px; margin-bottom: 20px; display: inline-block;}
 
-.repsInput {width: 40px;}
-.setsInput {width: 33px;}
-.restInput {width: 45px;}
+input {font-family: "arial black"}
+#repsInput, #changeRepsInput {width: 40px;}
+#setsInput {width: 33px;}
+#restInput {width: 45px;}
 
-#setsSpan, #flippedSets, #restSpan, #flippedRest {margin-left: 30px;}
+.setsSpan, .flippedSets, .restSpan, .flippedRest {margin-left: 30px;}
 
 #dropdown {height: 23px;}
 
-.deleteButton {visibility: hidden; position: absolute;}
+#deleteButton {visibility: hidden; position: absolute;}
+#visibleDeleteButton {width: 15px; height: 15px; padding-left: 5px;}
+.addCheckButtonCombo, #newCircuitButton {margin-left: 5px; width: 20px; height: 20px}
 
-
+#finishButton {margin-left: 105px; width: 75px; height: 20px;}
 /*Review page styles*/
 
 table, th, td, tr {
@@ -47,11 +52,23 @@ table, th, td, tr {
 #saveButton {margin-top: 100px; height: 40px; width: 90px; display: inline-block;}
 #nameWorkoutInput {display: inline-block;}
 
-#restTd {text-align: left; width: 75px;}
-.reviewExName {left: 20px; width: 200px; height: 20px;}
-.reviewReps {width: 150px;}
+#restTd {text-align: left; width: 100px;}
+.reviewExName {left: 20px; width: 175px; height: 20px;}
+.reviewReps {width: 50px;}
+.reviewWeight {width: 125px;}
+.weightInput {width: 50px;}
+.weightPic {height: 15px; width: 15px;}
 .reviewSets {border-right: solid black 2px; text-align: center; width: 50px;}
+
+/* run page styles */
+
 #setsTracker {font-size: 15px}
+#tableRun {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);}
+.exNameTdRun {width: 125px; text-align: left;}
+.repsTdRun {text-align: left; width: 50px;}
+.weightTdRun {text-align: left; width: 50px;}
+
+
 #exDivRun, #firstExDivRun, #restCountdownDiv, #restTimer {font-size: 25px; text-align: center;}
 #firstExDivRun, #restCountdownDiv, #restTimer {margin-top: 100};
 #exSpanRun {display: inline-block; margin-right: 200px;}

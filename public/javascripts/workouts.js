@@ -1,26 +1,19 @@
 //********************global**************************
 
-var i = 0; //designates current circuit
 var t = 10; // designates current div (ex)
 var p = 100; // designates current p (circuit)
 var r = 0; // designates current span row (exName or rep)
 var addCheckButtons = false;  // tells if addCheck boxes are up
 var addCircuitOrFinishButtons = false; // tells if addCircuit and Finish buttons are up
 
-window.windowName = 'createPage';
-window.addEventListener('load', function() {            //load initial input
-  var span = create.span();
-  span.appendChild(create.newCircuitInput());
-  var div = create.div();
-  div.id = t;
-  div.appendChild(span);
-  var paragraph = create.paragraph();
-  paragraph.id = p;
-  paragraph.appendChild(div);
-  document.body.appendChild(paragraph);
-
-  
-}, false); 
+//load initial input
+$(document).ready(function () {
+  $('body').append('<p class='+p+'></p>');
+  $('p.'+p).append('<div class='+t+'></div>');
+  $('div.'+t).append('<span class='+r+'></span></span>');
+  $('span.'+r).append(create.newCircuitInput());
+  document.body.querySelector('input').select();
+});
 
 var ChangeInstructions = function() {
   var makeP = document.createElement('p');
@@ -34,8 +27,6 @@ var ChangeInstructions = function() {
 ChangeInstructions();
 
 //****************************************************
-
-
 
 var workout = {
   circuit: [],
@@ -51,7 +42,7 @@ var workout = {
 
   addEx: function(exName) {
     var circuit = workout.circuit;
-    circuit[i].ex.push({ 
+    circuit[p/100 - 1].ex.push({ 
       exName: exName,
       reps: '',
       repsType: false,
@@ -59,19 +50,19 @@ var workout = {
   },
 
   addReps: function(reps) {
-    this.circuit[i].ex[r].reps = reps;
+    this.circuit[p/100 - 1].ex[r].reps = reps;
   },
 
   addRepsType: function(repsType) {
-    this.circuit[i].ex[r].repsType = repsType;
+    this.circuit[p/100 - 1].ex[r].repsType = repsType;
   },
 
   addSets: function(sets) {
-    this.circuit[i].sets = sets;
+    this.circuit[p/100 - 1].sets = sets;
   },
  
   addRest: function(rest) {
-    this.circuit[i].rest = rest; 
+    this.circuit[p/100 - 1].rest = rest; 
   },
 
   delete: function(circ, clickedRow) {
@@ -82,43 +73,17 @@ var workout = {
 var create = {
   
   editFrame: function () {
-    document.body.innerHTML = "";
-    var create = document.createElement("h1");
-    create.innerHTML = "Create";
-    document.body.appendChild(create);
-    var exerciseHeader = document.createElement('h');
-    exerciseHeader.className = "exercise";
-    exerciseHeader.innerHTML = "Exercise";
-    document.body.appendChild(exerciseHeader);
-    var repsHeader = document.createElement('h');
-    repsHeader.className = 'reps';
-    repsHeader.innerHTML = 'Reps';
-    document.body.appendChild(repsHeader); 
     p = 100;
+    $('body').html('');
+    $('body').append('<h1>Create</h1>', '<h class="exercise">Exercise</h>', '<h class="reps">Reps</h>');
   },
 
-  paragraph: function () {
-    var paragraph = document.createElement('p');
-    return paragraph;
-  },
-  
-  div: function () {
-    var div = document.createElement('div');
-    return div;
-  },
-  
-  span: function () {
-    var span = document.createElement('span');
-    span.id = r;
-    return span;
-  },
-  
   newCircuitInput: function() {
     var createInput = document.createElement('input');
     createInput.setAttribute("type", "text");
-    createInput.className = 'exNameInput';
+    createInput.id = 'circuitNameInput';
     createInput.addEventListener('keyup', function(event) {
-      if (event.key === "Enter") {
+      if (event.key === "Enter") {        
         flow.flipCircuitNameInput(); 
       }
     });
@@ -128,7 +93,7 @@ var create = {
   newRepsInput: function() {   
     var repsInput = document.createElement('input');
     repsInput.setAttribute('type', 'number');
-    repsInput.className = 'repsInput';
+    repsInput.id = 'repsInput';
     repsInput.value = 0;
     repsInput.addEventListener('keyup', function(event) {
       if (event.key === "Enter") {
@@ -141,7 +106,7 @@ var create = {
   newExInput: function() {
     var createInput = document.createElement('input');   
     createInput.setAttribute("type", "text");
-    createInput.className = 'exNameInput';
+    createInput.id = 'exNameInput';
     createInput.addEventListener('keyup', function(event) {
       if (event.key === "Enter") { 
         flow.flipExNameInput();
@@ -154,7 +119,7 @@ var create = {
     var getRow = document.getElementById(r);
     var createSetsInput = document.createElement('input');
     createSetsInput.setAttribute("type", "number"); //pop up reps input
-    createSetsInput.className = 'setsInput';
+    createSetsInput.id = 'setsInput';
     createSetsInput.value = 0;
     createSetsInput.addEventListener('keyup', function(event) {
       if (event.key === "Enter") {
@@ -167,7 +132,7 @@ var create = {
   newRestInput: function() {
     var restInput = document.createElement('input');
     restInput.setAttribute("type", "number"); //pop up reps input
-    restInput.className = 'restInput';
+    restInput.id = 'restInput';
     restInput.value = 0;
     restInput.addEventListener('keyup', function(event) {
       if (event.key === "Enter") {
@@ -232,24 +197,21 @@ var create = {
 
   dropdown: function() {
     var dropdown = document.createElement('select');
+    dropdown.id = 'dropdown';
     var optionReps = document.createElement('option');
     var optionSeconds = document.createElement('option');
     optionReps.textContent = 'Repetitions';
     optionSeconds.textContent = 'Seconds';
     dropdown.appendChild(optionReps);
     dropdown.appendChild(optionSeconds);
-    dropdown.id = "dropdown";
     return dropdown;
   },
   
-  deleteButton: function() {
-    var createButton = document.createElement('button');
-    createButton.innerHTML = "X";
-
-    createButton = document.createElement('img');
+  deleteButton: function(r) {
+    var createButton = document.createElement('img');
     createButton.setAttribute("src", "../images/x.jpg");
-    createButton.id = r;
-    createButton.className = 'deleteButton';
+    createButton.className = r;
+    createButton.id = 'deleteButton';
     createButton.addEventListener('mouseover', function (e) {                        
       e.target.style.cursor = "pointer";
       e.target.setAttribute("src", "../images/xOn.jpg");
@@ -260,10 +222,16 @@ var create = {
     return createButton;
   },
   
+  deleteCircuitButton: function (r) {
+    var button = document.createElement('span')
+    button.id = 'deleteCircuitButton';
+    button.innerHTML = '';
+    return button; 
+  },
+
   finishButton: function() {
     var finishButton = document.createElement('img');
     finishButton.setAttribute("src", "../images/finish.jpg");
-
     var finishButton = document.createElement('span');
     finishButton.innerHTML = 'Finish';
     finishButton.id = "finishButton";
@@ -283,496 +251,396 @@ var create = {
     });
     return finishButton;
   },  
+
+  changeExInput: function (clickedPClass, clickedDivClass, clickedSpanClass) {
+    var input = document.createElement('input');
+    input.id = 'changeExInput';
+    // $('input#changeExInput').keyup(function (event) {
+      input.addEventListener('keyup', function (event) {
+      if (event.key === "Enter") { 
+        workout.circuit[clickedPClass/100 - 1].ex[clickedSpanClass].exName = $('input').val();           
+        $('input').remove();
+        $('#addCheckSpan').html(workout.circuit[clickedPClass/100 - 1].ex[clickedSpanClass].exName);
+        $('#addCheckSpan').addClass(''+ clickedSpanClass);    
+        $('#addCheckSpan').attr('id', 'flippedEx');
+        //Pop reps input and dropdown
+        $('div.'+clickedDivClass).append('<span class='+clickedSpanClass+'></span>');
+        $('span.'+clickedSpanClass+':last').append(create.changeRepsInput(clickedPClass, clickedDivClass, clickedSpanClass));
+        document.body.querySelector('input').select();
+        $('span.'+clickedSpanClass+':last').append(create.dropdown());      
+      }
+    });
+    return input;
+  },
+
+  changeRepsInput: function (clickedPClass, clickedDivClass, clickedSpanClass) {
+    var input = document.createElement('input');
+    input.id = 'repsInput';
+    input.addEventListener('keyup', function () {
+      if (event.key === "Enter") {
+        //change in array    
+        workout.circuit[clickedPClass/100 - 1].ex[clickedSpanClass].reps = $('input').val();
+        workout.circuit[clickedPClass/100 - 1].ex[clickedSpanClass].repsType = $('#dropdown').val();
+        $('input').remove();
+        //Flip input into text. If seconds / else repetitions
+        if ($('select').val() === 'Seconds') {
+          $('span.'+clickedSpanClass+':last').html(workout.circuit[clickedPClass/100 - 1].ex[clickedSpanClass].reps + ' s');
+        } else {
+        $('span.'+clickedSpanClass+':last').html('x' + workout.circuit[clickedPClass/100 - 1].ex[clickedSpanClass].reps);}
+        $('span.'+clickedSpanClass+':last').attr('id', 'flippedReps');
+        $('select').remove();
+        $('div.'+clickedDivClass+':last').append(create.deleteButton(clickedSpanClass));
+        if (addCheckButtons === true) {
+          $('.'+p).append('<div id="addCheckDiv"></div>')
+          $('#addCheckDiv').append('<span id="addCheckSpan"></span>')
+          $('#addCheckSpan').append(create.addButton());
+          $('#addCheckSpan').append(create.checkButton());
+        }
+        //creates one time event listener to use enter key on window. pulls up nexExInput
+        // setTimeout(function() {
+        //   tools.enableEnterKeyAdd(window, "keyup", function(event) {
+        //     if (event.key === "Enter") {
+        //     if (addCheckButtons === true) {
+        //       flow.flipAddButton();}}}
+        //   );}, 100);
+      }
+    });
+    return input;
+  },
+
+  changeSetsInput: function (currentPId) {
+    var input = document.createElement('input');
+    input.id = 'setsInput';
+    input.setAttribute('type', 'number');
+    input.addEventListener('keyup', function (event) {
+      if (event.key === "Enter") { 
+      workout.circuit[currentPId / 100 - 1].sets = document.body.querySelector('input').valueAsNumber;
+      $('input').remove();
+      $('#'+currentPId+'.flippedSets').html('x' + workout.circuit[currentPId / 100 - 1].sets);
+      }  
+    });
+    return input;
+  },
+
+  changeRestInput: function (currentPId) {
+    var input = document.createElement('input');
+    input.id = 'changeRepsInput';
+    input.setAttribute('type', 'number');
+    input.addEventListener('keyup', function (event) {
+      if (event.key === "Enter") { 
+      workout.circuit[currentPId / 100 - 1].rest = document.body.querySelector('input').valueAsNumber;
+      $('input').remove();
+      $('#'+currentPId+'.flippedRest').html('' + workout.circuit[currentPId / 100 - 1].rest + ' seconds rest');
+      }  
+    });
+  
+    return input;
+  },
   
 };
 
 var tools = {
   
-  enableEnterKeyAdd: function(target, type, listener) {
-    target.addEventListener(type, function fn(event) { // for enter key to add newExInput
-      if (event.key === "Enter") {
-      target.removeEventListener(type, fn);
-      listener(event);
-      }
-    }); 
-  },
+  // enableEnterKeyAdd: function(target, type, listener) {
+  //   target.addEventListener(type, function fn(event) { // for enter key to add newExInput
+  //     if ($('input').length === 0 && event.key === "Enter") {
+  //     target.removeEventListener(type, fn);
+  //     listener(event);
+  //     }
+  //   }); 
+  // },
   
-  enableEnterKeyAddC: function(target, type, listener) {
-    target.addEventListener(type, function fn(event) { // for enter key to add newExInput
-      if (event.key === "Enter") {
-        target.removeEventListener(type, fn);
-        listener(event);
-      }
-    });
-  }, 
+  // enableEnterKeyAddC: function(target, type, listener) {
+  //   target.addEventListener(type, function fn(event) { // for enter key to add newExInput
+  //     if ($('input').length === 0) {
+  //     if (addCircuitOrFinishButtons === true) {
+  //       target.removeEventListener(type, fn);
+  //       listener(event);
+  //     }
+  //     }
+  //   });
+  // }, 
   
-  setUpEventListeners: function() {
+  setUpChangeDeleteListeners: function() {
+  //mouseovers
     document.body.addEventListener('mouseover', function(e) {
-      if (e.target.className === 'flippedEx' || e.target.className === 'deleteButton') {
-        e.target.parentNode.style.fontWeight = 'bold';
-        e.target.parentNode.style.backgroundColor = 'rgb(56, 147, 174)';
-        e.target.style.cursor = 'pointer';
-        e.target.parentNode.childNodes[2].className = 'visibleDeleteButton';
+      if($('input').length === 0) {        
+        if (e.target.id === 'flippedEx' || e.target.id === 'flippedReps' || e.target.id === 'deleteButton') {
+          e.target.parentNode.style.fontWeight = 'bold';
+          e.target.parentNode.style.backgroundColor = 'rgb(56, 147, 174)';
+          e.target.style.cursor = 'pointer';
+          e.target.parentNode.childNodes[2].id = 'visibleDeleteButton';
+        }
       }
     });
     document.body.addEventListener('mouseout', function(e) {
-      if (e.target.tagName === 'SPAN' || e.target.className === 'visibleDeleteButton') {
-        e.target.parentNode.style.color = "black";
-        e.target.parentNode.style.backgroundColor = 'white';
-        e.target.parentNode.style.fontWeight = 'normal';
-        e.target.parentNode.childNodes[2].className = 'deleteButton'; 
-      } 
+      if($('input').length === 0) {
+        if (e.target.tagName === 'SPAN' || e.target.id === 'visibleDeleteButton') {
+          e.target.parentNode.style.color = "black";
+          e.target.parentNode.style.backgroundColor = 'white';
+          e.target.parentNode.style.fontWeight = 'normal';
+          e.target.parentNode.childNodes[2].id = 'deleteButton'; 
+        }
+      }
     });    
+    document.body.addEventListener('mouseover', function(e) {
+      if($('input').length === 0) {
+        if(e.target.className === "flippedSets" || e.target.className === "flippedRest") {
+          e.target.style.fontWeight = 'bold';
+          e.target.style.color = "rgb(56, 147, 174)";          
+          e.target.style.cursor = 'pointer';
+      }
+    }
+    });    
+      document.body.addEventListener('mouseout', function(e) {
+        if($('input').length === 0) {
+          if(e.target.className === "flippedSets" || e.target.className === "flippedRest") {
+            e.target.style.color = "black";
+            e.target.style.fontWeight = 'normal';
+        }
+      }
+    });    
+
      
      
-   //  delete button listener 
+  //  delete button listener 
     document.body.addEventListener('click', function(e) { 
-      if (e.target.className === 'visibleDeleteButton') {
-        var clickedSpan = e.target;
-        var clickedDiv = e.target.parentNode;
-        var clickedDivId = clickedDiv.id;
-        var clickedP = clickedDiv.parentNode;
-        // if(workout.circuit[clickedP.id /100 - 1].ex.length === 1) { 
- 
-        clickedDiv.parentNode.removeChild(clickedDiv);
-        workout.delete(clickedP.id, clickedSpan.id);
-        
+      if (e.target.id === 'visibleDeleteButton') {
+        workout.delete($(event.target).parent().parent().attr('class'), $(event.target).attr('class'));
+        $('body').html('');        
         create.editFrame();
 
         //rebuild circuits/ex
         for (var i = 0; i < workout.circuit.length; i++) {
           r = 0;
           t = 10;
-          var newP = document.createElement('p');
-          document.body.appendChild(newP);
-          newP.id = p;
+          $('body').append('<p class='+p+'></p>');
           for(var y = 0; y < workout.circuit[i].ex.length; y++) {
-            var newDiv = document.createElement('div');
-              newDiv.id = t;
-            var newExSpan = document.createElement('span');
-              newExSpan.id = r;
-              newExSpan.className = 'flippedEx';
-              newExSpan.innerHTML = workout.circuit[i].ex[y].exName;
-            var newRepsSpan = document.createElement('span');
-            newRepsSpan.id = r;
-              newRepsSpan.className = 'flippedEx';
-              newRepsSpan.innerHTML = workout.circuit[i].ex[y].reps;
-            newDiv.appendChild(newExSpan);
-            newDiv.appendChild(newRepsSpan);
-            newP.appendChild(newDiv);
-
-            //needs fix
-            if (workout.circuit[i].length === 1) {
-            var deleteCircuitButton = document.createElement('button');
-            deleteCircuitButton.innerHTML = "Delete Circuit"
-            deleteCircuitButton.id = r;
-            deleteCircuitButton.className = 'deleteButton';
-            newDiv.appendChild(deleteCircuitButton);
-            r++;                                    
+            $('p.'+p).append('<div class='+t+'></div>');
+            $('div.'+t).append('<span id="flippedEx" class='+r+'></span>');
+            $('span#flippedEx:last').html(workout.circuit[p/100 - 1].ex[r].exName);
+            $('div.'+t).append('<span id="flippedReps" class='+r+'></span>');
+            if(workout.circuit[p/100 - 1].ex[r].repsType === 'Seconds') {
+              $('span#flippedReps:last').html(workout.circuit[p/100 -1].ex[r].reps + ' sec');
             } else {
-            var deleteButton = document.createElement('button');
-            deleteButton.innerHTML = "X";
-            deleteButton.id = r;
-            deleteButton.className = 'deleteButton';
-            newDiv.appendChild(deleteButton);
+              $('span#flippedReps:last').html('x' + workout.circuit[p/100 -1].ex[r].reps);
+            }  
+            $('div.'+t).append(create.deleteButton());
+            t = t + 10;
             r++;                        
-            }
           }
           if (typeof workout.circuit[i].sets === 'number') {
-            var setsRestDiv = document.createElement('div');
-              setsRestDiv.id = 'setsRestDiv';
-            var setsSpan = document.createElement('span');
-              setsSpan.id = 'flippedSets';
-              setsSpan.innerHTML = 'x' + workout.circuit[i].sets;
-            document.body.appendChild(setsRestDiv);
-            setsRestDiv.appendChild(setsSpan);
+            $('p.'+p).append('<div class="setsRestDiv"><span class="flippedSets"></span></div>')
+            $('span.flippedSets:last').html('x' + workout.circuit[p/100 -1].sets);
           }
           if (typeof workout.circuit[i].rest === 'number') {
-            var restSpan = document.createElement('span');
-              restSpan.id = 'flippedRest';
-              restSpan.innerHTML = workout.circuit[i].rest + ' seconds rest';
-            document.getElementById('setsRestDiv').appendChild(restSpan);
+            $('div.setsRestDiv:last').append('<span class="flippedRest"></span>');
+            $('span.flippedRest:last').append(workout.circuit[i].rest + ' seconds rest');
             p = p + 100;        
           }
-        } //end circuit rebuild loop
-
+        } 
+        //end circuit rebuild loop
         //if addcheckcombo is up, keep it up after loop
         if (addCheckButtons === true) {
-          var div = document.createElement('div');
-          div.id = 'addCheckDiv';      
-          newP.appendChild(div);
-          var newSpan = document.createElement('span');
-          newSpan.id = 'addCheckSpan';
-          div.appendChild(newSpan);         
-          //the methods wont work...
-          // newSpan.appendChild(create.addButton());
-          var addButton = document.createElement('button');
-          addButton.innerHTML = "+";
-          addButton.className = "addCheckButtonCombo";
-          addButton.id = "addButton";
-          addButton.addEventListener('click', function() {
-            flow.flipAddButton();
-          });
-          newSpan.appendChild(addButton);
-          // newSpan.appendChild(create.checkButton());
-          var checkButton = document.createElement('button');
-          checkButton.innerHTML = "v";
-          checkButton.className = "addCheckButtonCombo";
-          checkButton.addEventListener('click', function() {
-          flow.flipCheckButton();
-          });
-          newSpan.appendChild(checkButton);
+          $('p.'+p).append('<div id="addCheckDiv"><span id="addCheckSpan"></span></div>')
+          $('#addCheckSpan:last').append(create.addButton(), create.checkButton());
         }
         if (addCircuitOrFinishButtons === true) {
-                //create new paragraph (circuit)
           p = p + 100; 
           r = 0;
-          var paragraph = document.createElement('p');
-          paragraph.id = p;
-          var div = document.createElement('div');
-          div.id = t;
-          var newSpan = document.createElement('span');
-          newSpan.id = r;          
-          // newSpan.appendChild(create.addCircuitButton())
-          var button = document.createElement('button');
-          button.innerHTML = "+";
-          button.id = "newCircuitButton";
-          button.addEventListener('click', function() {
-            flow.flipAddCircuitButton();
-            addCircuitOrFinishButtons = !addCircuitOrFinishButtons;      
-          });
-          newSpan.appendChild(button);
+          $('body').append('<p class='+p+'><div class='+t+'><span class='+r+'></span></div></p>')
+          $('span.'+r+':last').append(create.addCircuitButton());
           addCircuitOrFinishButtons = !addCircuitOrFinishButtons;
-          div.appendChild(newSpan);
-          paragraph.appendChild(div);
-          document.body.appendChild(paragraph);
         }
         
       }
     });
 
-  // change listener
+  // change exName/reps listener
     document.body.addEventListener('click', function(e) {
-      if (e.target.nodeName === 'SPAN') {
-        //when row is clicked, clear content and add exName input
-        var clickedSpanId = e.target.id;
-        var clickedDiv = e.target.parentNode;
-        console.log(clickedDiv);
-        clickedDiv.innerHTML = "";
-
-        var changeExInput = document.createElement('input');
-        changeExInput.className = 'exNameInput';
-        var newSpan =document.createElement('span');
-        newSpan.id = clickedSpanId;
-        clickedDiv.appendChild(newSpan);
-        newSpan.appendChild(changeExInput);
-        document.querySelector('input').select();
-
-
-        //remove buttons while change is initiated
-        if (addCheckButtons === true) {
-        var buttonSpan = document.getElementById('addButton').parentNode;
-        var buttonDiv = buttonSpan.parentNode;
-        buttonDiv.parentNode.removeChild(buttonDiv);
-        }
-
-        if (addCircuitOrFinishButtons === true) {
-          document.getElementById('newCircuitButton').remove();
-          document.getElementById('finishButton').remove();
-        }
-        changeExInput.addEventListener('keyup', function(event) {
-          if (event.key === "Enter") {         
-            var circuit = workout.circuit;
-            var currentP = clickedDiv.parentNode;
-            circuit[currentP.id / 100 - 1].ex[clickedSpanId] = {
-              exName: document.querySelector('input').value,
-              reps: '',
-              repsType: 'Repetitions',
-            };
-
-            //flepExInput *for change
-            var currentSpan = document.querySelector('input').parentNode;
-            currentSpan.className = 'flippedEx';
-            destroy.input();
-            currentSpan.innerHTML = workout.circuit[currentP.id / 100 - 1].ex[clickedSpanId].exName;
-
-
-            //create reps input *for change 
-            var createRepsInput = document.createElement('input');
-            createRepsInput.setAttribute("type", "number"); //pop up reps input 
-            createRepsInput.className = 'repsInput';
-            createRepsInput.addEventListener('keyup', function(event) {
-              if (event.key === "Enter") {                                
-                var repsInput = document.querySelector('input');
-                var dropdown = document.querySelector('select');
-                workout.circuit[currentP.id / 100 - 1].ex[clickedSpanId].reps = repsInput.valueAsNumber;
-                workout.circuit[currentP.id / 100 - 1].ex[clickedSpanId].repsType = dropdown.value;
-
-                var currentSpan = document.querySelector('input').parentNode;
-                currentSpan.className = 'flippedEx';
-                currentSpan.id = clickedSpanId;
-                destroy.input();
-                destroy.dropdown();
-                if (dropdown.value === 'Seconds') {
-                  currentSpan.innerHTML = workout.circuit[currentP.id / 100 - 1].ex[clickedSpanId].reps + ' s';
-                } else {
-                  currentSpan.innerHTML = 'x' + workout.circuit[currentP.id / 100 - 1].ex[clickedSpanId].reps;
-                }
-                //pop delete buttons
-                var deleteButton = create.deleteButton();
-                clickedDiv.appendChild(deleteButton);
-                deleteButton.id = clickedSpanId;
-
-                if(addCheckButtons === true) {
-                //pop add/check buttons
-                var div = create.div();
-                div.id = 'addCheckDiv';
-
-                var lastP = document.getElementById(workout.circuit.length * 100)
-                lastP.appendChild(div);
-                // currentP.appendChild(div);
-
-                var newSpan = create.span();
-                newSpan.id = 'addCheckSpan';
-                div.appendChild(newSpan);
-                newSpan.appendChild(create.addButton()); 
-                newSpan.appendChild(create.checkButton());
-                // addCheckButtons = !addCheckButtons;
-                destroy.dropdown();
-                }
-                if(addCircuitOrFinishButtons === true) {
-                  var paragraph = document.getElementById(p);
-                  var div = create.div();
-                  div.id = t;
-                  var newSpan = create.span();
-                  newSpan.appendChild(create.addCircuitButton())
-                  div.appendChild(newSpan);
-                  paragraph.appendChild(div);
-                  document.body.insertAdjacentElement('afterend', create.finishButton());
-                  
-                }
-              }
-            });
-            var newRepsSpan = document.createElement('span');
-            clickedDiv.appendChild(newRepsSpan)
-            newRepsSpan.appendChild(createRepsInput);
-            newRepsSpan.appendChild(create.dropdown());
-            document.querySelector('input').select();
-
+      if($('input').length === 0) {                
+        if (e.target.id === 'flippedEx' || e.target.id === 'flippedReps') {          
+          //when row is clicked, clear content and add exName input
+          var clickedDivClass = $(e.target).parent().attr('class');
+          var clickedSpanClass = $(e.target).attr('class');
+          var clickedPClass = $(e.target).parent().parent().attr('class');
+          $('.'+clickedDivClass).html('');
+          //pop changeExInput
+          $('.'+clickedDivClass).append('<span id="addCheckSpan"></span>')
+          $('#addCheckSpan').append(create.changeExInput(clickedPClass, clickedDivClass, clickedSpanClass));
+          $('#addCheckSpan').attr('class', '' + $(e.target).attr('class'));
+          document.body.querySelector('input').select();     
+          //remove buttons while change is initiated
+          if (addCheckButtons === true) {
+            $('#addCheckDiv').remove();
           }
-        });
+          if (addCircuitOrFinishButtons === true) {
+            document.getElementById('newCircuitButton').remove();
+            document.getElementById('finishButton').remove();
+            addCircuitOrFinishButtons = !addCircuitOrFinishButtons;
+          }
+        }
       }
     });
+  //sets ch listener
+    document.body.addEventListener('click', function (e) {
+      if($('input').length === 0) {                
+        if (e.target.className === 'flippedSets') {
+          $(e.target).html('Sets: ');
+          $(e.target).append(create.changeSetsInput($(e.target).attr('id')));
+          document.body.querySelector('input').select();
+        }
+      }  
+    });
+  //rest ch listener
+    document.body.addEventListener('click', function (e) {
+      if($('input').length === 0) {                
+        if (e.target.className === 'flippedRest') {
+          $(e.target).html('Rest: ');
+          $(e.target).append(create.changeRestInput($(e.target).attr('id')));
+          document.body.querySelector('input').select();
+        }
+      }  
+    });
+  
   },
 
 
 };
-tools.setUpEventListeners();
-
-
-
-
-var destroy = {
-  
-  input: function() {
-    document.querySelector('input').remove();
-  },   
-  
-  dropdown: function() {
-    document.querySelector('select').remove();
-  },
-}; 
-
+tools.setUpChangeDeleteListeners();
 
 var flow = {
   
-  flipCircuitNameInput: function() {
+  flipCircuitNameInput: function() {  
     //Add to array
-    workout.addCircuit(document.querySelector('input').value); 
-    var span = document.querySelector('input').parentNode; 
-    destroy.input();
-    
+    workout.addCircuit($('input').val());
+    $('input').remove();
     //Flip input into text
-    span.innerHTML = workout.circuit[i].ex[r].exName;
-    span.className = 'flippedEx';
-    
-    //Pop reps input
-    var newSpan = create.span();
-    var currentDiv = document.getElementById(t);
-    currentDiv.appendChild(newSpan);
-    newSpan.appendChild(create.newRepsInput());
-    document.querySelector('input').select();
-    newSpan.appendChild(create.dropdown());
+    $('.'+r+':last').html(workout.circuit[p/100 - 1].ex[r].exName);
+    $('.'+r+':last').attr('id', 'flippedEx');
+    //Pop reps input and dropdown
+    $('div.'+t+':last').append('<span class='+r+'></span>');
+    $('span.'+r+':last').append(create.newRepsInput());
+    document.body.querySelector('input').select();
+    $('span.'+r+':last').append(create.dropdown());
   },  
   
-  flipExNameInput: function() {
-    //Add to array
-    var span = document.querySelector('input').parentNode; 
-    workout.addEx(document.querySelector('input').value);
-    destroy.input();
-
-    //Flip input into text
-    span.innerHTML = workout.circuit[i].ex[r].exName;
-    span.className = 'flippedEx';
-    
+  flipExNameInput: function() {   
+    //Add to array, flip into text
+    workout.addEx($('input').val());
+    $('input').remove();
+    $('#addCheckSpan').html(workout.circuit[p/100 - 1].ex[r].exName);
+    $('#addCheckSpan').addClass(''+ r);    
+    $('#addCheckSpan').attr('id', 'flippedEx');
     //Pop reps input
-    var newSpan = create.span();
-    var currentDiv = document.getElementById(t);
-    currentDiv.appendChild(newSpan);
-    newSpan.appendChild(create.newRepsInput());
-    document.querySelector('input').select();
-    newSpan.appendChild(create.dropdown());
+    $('div.'+t).append('<span class='+r+'></span>');
+    $('span.'+r+':last').append(create.newRepsInput());
+    document.body.querySelector('input').select();
+    $('span.'+r+':last').append(create.dropdown());
   },  
   
-  flipRepsInput: function() {    
-    //Add to array
-    var repsInput = document.querySelector('input');
-    workout.addReps(repsInput.valueAsNumber);
-    var dropdown = document.getElementById('dropdown'); 
-    workout.addRepsType(dropdown.value);
-    destroy.input();
-    
+  flipRepsInput: function() {     
+    //Add to array    
+    workout.addReps($('input').val());
+    workout.addRepsType($('#dropdown').val());
+    $('input').remove();
     //Flip input into text. If seconds / else repetitions
-    var span = dropdown.parentNode;
-    if (document.getElementById('dropdown').value === 'Seconds') { 
-      destroy.dropdown();
-      span.innerHTML = workout.circuit[i].ex[r].reps + ' s';
-      span.className = 'flippedReps';
+    if ($('select').val() === 'Seconds') {
+      $('span.'+r+':last').html(workout.circuit[p/100 - 1].ex[r].reps + ' s');
     } else {
-      destroy.dropdown();
-      span.innerHTML = 'x' + workout.circuit[i].ex[r].reps;
-      span.className = 'flippedEx';
-    }
+      $('span.'+r+':last').html('x' + workout.circuit[p/100 - 1].ex[r].reps);}
+    $('span.'+r+':last').attr('id', 'flippedReps');
+    $('select').remove();
     //pop delete buttons
-    if (workout.circuit[i].ex.length === 1) {
-      var deleteCircuitButton = document.createElement('button');
-      deleteCircuitButton.innerHTML = "A";
-      deleteCircuitButton.id = r;
-      deleteCircuitButton.className = 'deleteButton';
-      span.parentNode.appendChild(deleteCircuitButton)
-    } else {
-      span.parentNode.appendChild(create.deleteButton());
+    if ($('span.'+r+':last').attr('class') === 0) {
+      $('div.'+t+':last').append(create.deleteCircuitButton());
     }
+    $('div.'+t+':last').append(create.deleteButton());
+    
     //pop add/check buttons in new div/span
-    var div = create.div();
-    div.id = 'addCheckDiv';
-    var currentP = document.getElementById(p);
-    currentP.appendChild(div);
-    var newSpan = create.span();
-    newSpan.id = 'addCheckSpan';
-    div.appendChild(newSpan);
-    newSpan.appendChild(create.addButton()); 
-    newSpan.appendChild(create.checkButton());
+    $('.'+p).append('<div id="addCheckDiv"></div>')
+    $('#addCheckDiv').append('<span id="addCheckSpan"></span>')
+    $('#addCheckSpan').append(create.addButton());
+    $('#addCheckSpan').append(create.checkButton());
     addCheckButtons = !addCheckButtons;
     r++;
-
-    
-    //creates one time event listener to use enter key on window. pulls up nexExInput
-    setTimeout(function() {
-      tools.enableEnterKeyAdd(window, "keyup", function(event) {
-        if (event.key === "Enter") {
-          flow.flipAddButton();
-        }
-      });
-    }, 100);
-    
+    // //creates one time event listener to use enter key on window. pulls up nexExInput
+    // setTimeout(function() {
+    //   tools.enableEnterKeyAdd(window, "keyup", function(event) {
+    //     if (event.key === "Enter") {
+    //     if (addCheckButtons === true) {
+    //       flow.flipAddButton();}}}
+    //   );}, 100);
   },
   
-  flipAddButton: function () {
-    var currentSpan = document.getElementById('addCheckSpan');
-    currentSpan.innerHTML = '';
-    // r++;
-    currentSpan.id = r;
+  flipAddButton: function () {    
+    $('#addCheckSpan').html('');
+    $('#addCheckSpan').addClass(''+r);
     t = t + 10;
-    currentSpan.parentNode.id = t;
-    currentSpan.appendChild(create.newExInput());
+    $('#addCheckDiv').addClass(''+t);
+    $('#addCheckDiv').attr('id', 'exNameInput');
+    $('#addCheckSpan').append(create.newExInput());
     document.querySelector('input').select();
     addCheckButtons = !addCheckButtons;
-    
   },
   
   flipCheckButton: function () {
-    var currentSpan = document.getElementById('addCheckSpan');
-    currentSpan.parentNode.id = 'setsRestDiv';
-    currentSpan.innerHTML = 'Sets:';
-    currentSpan.id = 'setsSpan';
-    currentSpan.appendChild(create.newSetsInput());
+    $('#addCheckDiv').attr({
+      class: 'setsRestDiv',
+      id: p,
+    });
+    $('#addCheckSpan').attr({id: ''+p, class: 'setsSpan',});
+    $('#'+p+'.setsSpan').html('Sets: ');
+    $('.setsSpan').append(create.newSetsInput());
     document.querySelector('input').select();
-    addCheckButtons = !addCheckButtons;    
+    addCheckButtons = !addCheckButtons;
   },
   
   flipSetsInput: function() {
-    var setsInput = document.querySelector('input');
-    workout.addSets(setsInput.valueAsNumber);
-    
-    var span = setsInput.parentNode; 
-    destroy.input();
-    span.innerHTML = 'x' + workout.circuit[i].sets;
-    span.id = 'flippedSets';
-    var div = span.parentNode;
-    var newSpan = create.span();
-    newSpan.id = 'restSpan';
-    newSpan.innerHTML = 'Rest:';
-    div.appendChild(newSpan);
-    newSpan.appendChild(create.newRestInput());
+    //flip sets input
+    workout.addSets(document.querySelector('input').valueAsNumber);
+    $('input').remove();
+    $('#'+p+'.setsSpan').html('x' + workout.circuit[p/100 - 1].sets);
+    $('#'+p+'.setsSpan').attr('class', 'flippedSets');
+    //pop sets span,input
+    $('.setsRestDiv:last').append('<span id='+p+' class="restSpan">Rest:'+' '+'</span>')
+    $('#'+p+'.restSpan').append(create.newRestInput());
     document.querySelector('input').select();
   },
   
   flipRestInput: function () {
     //add to array
-    var restInput = document.querySelector('input');
-    workout.addRest(restInput.valueAsNumber);
-    var span = restInput.parentNode
-    span.id = 'flippedRest';
-    destroy.input(); 
-
-    //restinput to text
-    span.innerHTML = workout.circuit[i].rest + ' seconds rest';
+    workout.addRest(document.querySelector('input').valueAsNumber);
+    //flip input to text
+    $('.restSpan').attr('class', 'flippedRest')
+    $('input').remove()
+    $('#'+p+'.flippedRest').html(workout.circuit[p/100 - 1].rest + ' seconds rest')
+    //pop finish button
     var getInstructions = document.getElementById('instructions');
-    getInstructions.insertAdjacentElement('afterend', create.finishButton());
-    
-    //create new paragraph (circuit)
+    getInstructions.insertAdjacentElement('afterend', create.finishButton());  
+    //create new p with addcirc button, reset ex variable
     p = p + 100; 
     r = 0;
-    var paragraph = create.paragraph();
-    paragraph.id = p;
-    var div = create.div();
-    div.id = t;
-    var newSpan = create.span();
-    newSpan.appendChild(create.addCircuitButton())
+    t = t + 10;
+    $('body').append('<p class='+p+'></p>'); 
+    $('p.'+p).append('<div class='+t+'></div>');
+    $('div.'+t).append('<span class='+r+'></span>'); 
+    $('.'+r+':last').append(create.addCircuitButton());
     addCircuitOrFinishButtons = !addCircuitOrFinishButtons;
-    div.appendChild(newSpan);
-    paragraph.appendChild(div);
-    document.body.appendChild(paragraph);
-     
     //enable enter key to add circuit as well
     setTimeout(function() {
       tools.enableEnterKeyAddC(window, "keyup", function(event) {
         if (event.key === "Enter") {
-          flow.flipAddCircuitButton();
-          addCircuitOrFinishButtons = !addCircuitOrFinishButtons;          
+            flow.flipAddCircuitButton();
+            addCircuitOrFinishButtons = !addCircuitOrFinishButtons;          
         }
-      })
-    }, 100);
+      })}, 100);
   },
   
   flipAddCircuitButton: function () { 
-      //remove buttons
-      document.getElementById('newCircuitButton').remove();
-      document.getElementById('finishButton').remove();
-      
-      //reset j = 0. now will be first ex in array again... create Input
-      // j = 0;
-      t = t + 10;
-      i++;
-      var span = create.span();
-      span.id = r;
-      span.appendChild(create.newCircuitInput());
-      var div = create.div();
-      div.id = t;
-      div.appendChild(span);
-      var paragraph = document.getElementById(p);
-      paragraph.appendChild(div);
+      $('#newCircuitButton').remove();
+      $('#finishButton').remove();
+      $('.'+r+':last').append(create.newCircuitInput());
       document.querySelector('input').select();
   },
 };  
@@ -920,11 +788,24 @@ var review = {
   },
   
   populate: function () {
+    $('')
     var newTr = review.createTr(); 
     newTr.id = r;
    
     //create a table for every circuit stored 
+
+
     for (var c = 0; c < workout.circuit.length; c++) {
+
+      $('body').append('<table><tbody id='+c+'></tbody></table>')
+      c++;
+
+    
+    
+      // var table = document.createElement('table');
+      // c++
+      // table.id = '';
+
       var newTable = document.createElement('table');
       newTable.className = "reviewTables";
       var newTBody = this.createTbody();
@@ -975,7 +856,9 @@ var review = {
           }
       }
     } 
-    var reviewBottom = create.span();
+
+    var reviewBottom = document.createElement('span');
+    
       reviewBottom.appendChild(this.createNameWorkoutInput());
       reviewBottom.appendChild(this.createSaveButton());
       reviewBottom.appendChild(this.createRunButton());

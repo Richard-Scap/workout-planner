@@ -16,21 +16,21 @@ span, h {font-family: "arial black"; width: 200px;}
 
 .exercise {font-size: 20px; margin-bottom: 20px; display: inline-block;} 
 
-.flippedEx, .flippedReps {width: 200px; height: 21px; margin-left: 0; margin-right: 0; 
+#flippedEx, #flippedReps {width: 200px; height: 21px; margin-left: 0; margin-right: 0; 
                           display: inline-block;} 
 .reps {font-size: 20px; width: 100px; margin-bottom: 20px; display: inline-block;}
 
 input {font-family: "arial black"}
-.repsInput {width: 40px;}
-.setsInput {width: 33px;}
-.restInput {width: 45px;}
+#repsInput, #changeRepsInput {width: 40px;}
+#setsInput {width: 33px;}
+#restInput {width: 45px;}
 
-#setsSpan, #flippedSets, #restSpan, #flippedRest {margin-left: 30px;}
+.setsSpan, .flippedSets, .restSpan, .flippedRest {margin-left: 30px;}
 
 #dropdown {height: 23px;}
 
-.deleteButton {visibility: hidden; position: absolute;}
-.visibleDeleteButton {width: 15px; height: 15px; padding-left: 5px;}
+#deleteButton {visibility: hidden; position: absolute;}
+#visibleDeleteButton {width: 15px; height: 15px; padding-left: 5px;}
 .addCheckButtonCombo, #newCircuitButton {margin-left: 5px; width: 20px; height: 20px}
 
 #finishButton {margin-left: 105px; width: 75px; height: 20px;}

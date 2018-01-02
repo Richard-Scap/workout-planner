@@ -18,12 +18,12 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+//* load javascripts and stylesheets
+app.use(express.static(__dirname + '/public'));
+
 //* Controllers *//
 app.use('/status', status);
 app.use('/workouts', workouts);
-
-//load javascripts and stylesheets
-app.use(express.static(__dirname + '/public'));
 
 // set engine
 app.set('views', path.join(__dirname, 'views'));

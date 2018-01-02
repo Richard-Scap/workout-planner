@@ -27,29 +27,29 @@ router.post('/create', (req, res, next) => {
   var params = req.body;
 
   res.send(req.body);
-  var sql = `INSERT INTO workouts (name)
-               VALUES (${params.workoutName})`
+  var sqlWorkouts = 'INSERT INTO workouts (name) VALUES ($1)'
 
-  db.query(sql, null, (err, res) => {
-    console.log(res.rows[0]);
-    response.workout = res.rows[0]
+  db.query(sqlWorkouts, [params.name], (err, res) => {
+    if (err) { console.log('DB ERROR', err) }
+    console.log('RESPONSE', res);
+    // response.workout = res.rows[0]
   })
 
-  var sql = `INSERT INTO circuits (name, repetitions, rest, workout_id)
-  VALUES("circuit0", ${params.sets}, ${params.rest}, workout_id)`
+  // var sql = `INSERT INTO circuits (name, repetitions, rest, workout_id)
+  // VALUES("circuit0", ${params.sets}, ${params.rest}, workout_id)`
 
-  db.query(sql, null, (err, res) => {
-    console.log(res.rows[0]);
-    response.circuits = res.rows[0]
-  })
+  // db.query(sql, null, (err, res) => {
+  //   console.log(res.rows[0]);
+  //   response.circuits = res.rows[0]
+  // })
 
-  var sql = `INSERT INTO exercises (name, repetitions, rest, workout_id)
-  VALUES("circuit0", ${params.sets}, ${params.rest}, workout_id)`
+  // var sql = `INSERT INTO exercises (name, repetitions, rest, workout_id)
+  // VALUES("circuit0", ${params.sets}, ${params.rest}, workout_id)`
 
-  db.query(sql, null, (err, res) => {
-    console.log(res.rows[0]);
-    response.exercises = res.rows[0]
-  })
+  // db.query(sql, null, (err, res) => {
+  //   console.log(res.rows[0]);
+  //   response.exercises = res.rows[0]
+  // })
 
 })
 
